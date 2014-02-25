@@ -1,0 +1,151 @@
+﻿<Window
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:ViewModel="clr-namespace:FeatureLogger.ViewModel" 
+             x:Class="FeatureLogger.View.FeatureLogView" 
+			 xmlns:serviceReference="clr-namespace:FeatureLogger.ServiceReference"
+             Width="1000" Height="600" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ObjectDataProvider x:Key="modifystate" MethodName="GetNames" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="serviceReference:ModifyState" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="selectperiod" MethodName="GetNames" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ViewModel:SelectPeriod" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <Grid>
+        <Grid Margin="5,5,5,5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Margin="2,2,2,2" Grid.Column="0" Content="&lt;&lt;" Command="{Binding CommandTakeFirst}" IsEnabled="{Binding HasPrevious}"/>
+                    <Button Margin="2,2,2,2" Grid.Column="1" Content="&lt;" Command="{Binding CommandTakePrevious}" IsEnabled="{Binding HasPrevious}"/>
+                    <Button Margin="2,2,2,2" Grid.Column="2" Content="&gt;" Command="{Binding CommandTakeNext}" IsEnabled="{Binding HasNext}"/>
+                    <Button Margin="2,2,2,2" Grid.Column="3" Content="&gt;&gt;" Command="{Binding CommandTakeLast}" IsEnabled="{Binding HasNext}"/>
+                    
+                    <Label Grid.Column="4" Content="{Binding CurrentPageDisplayText}"/>
+                </Grid>
+                <ListView Grid.Row="1" ItemsSource="{Binding ModificationInfos}" SelectionMode="Single" SelectedItem="{Binding SelectedModificationInfo}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="ID"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding FID}" Header="FID"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding ModifyTime}" Header="ModifyTime"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding UserName}" Header="UserName"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding FeatureClass}" Header="FeatureClass"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding State}" Header="State"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="175"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Margin="5,0,0,0">
+                    <Grid Margin="0,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox DataContext="{Binding Filter}" Name="ChkFid" Grid.Row="0" Grid.Column="0" Content="FID" IsChecked="{Binding FilterByFid}" VerticalAlignment="Center"/>
+                        <TextBox Name="TxtFid" Grid.Row="0" Grid.Column="1" IsEnabled="{Binding ElementName=ChkFid, Path=IsChecked}" 
+                                 Margin="2,2,2,2" Text="{Binding FeatureFid}"/>
+
+                        <!--<Label Grid.Row="0" Grid.Column="0" Content="User"/>-->
+                        <CheckBox DataContext="{Binding Filter}" Name="ChkUser" Grid.Row="1" Grid.Column="0" Content="User" IsChecked="{Binding FilterByUser}" VerticalAlignment="Center"/>
+                        <ComboBox Name="CmbUser" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Users}" IsEnabled="{Binding ElementName=ChkUser, 
+                                  Path=IsChecked}" SelectedValue="{Binding User}" Margin="2,2,2,2">
+                        </ComboBox>
+
+
+                        <!--<Label Grid.Row="1" Grid.Column="0" Content="FeatureClass"/>-->
+                        <CheckBox DataContext="{Binding Filter}" Name="ChkFeatureClass" Grid.Row="2" Grid.Column="0" Content="FeatureClass" IsChecked="{Binding FilterByFeatureClass}" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding FeatureClasses}" IsEnabled="{Binding ElementName=ChkFeatureClass, Path=IsChecked}"
+                                  SelectedValue="{Binding FeatureClass}" Margin="2,2,2,2"/>
+
+                        <!--<Label Grid.Row="2" Grid.Column="0" Content="State"/>-->
+                        <CheckBox DataContext="{Binding Filter}" Name="ChkState" Grid.Row="3" Grid.Column="0" Content="State" IsChecked="{Binding FilterByState}" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Mode=OneWay, Source={StaticResource modifystate}}"
+                                  IsEnabled="{Binding ElementName=ChkState, Path=IsChecked}"
+                                  SelectedItem="{Binding State}" Margin="2,2,2,2"/>
+
+                        <!--<RadioButton Grid.Row="3" Grid.Column="0" Content="CustomPeriod"/>
+						<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Mode=OneWay, Source={StaticResource selectperiod}}" IsEnabled="{Binding }"/>-->
+
+                        <!--<RadioButton Grid.Row="4" Grid.Column="0" Content="SelectPeriod"/>-->
+                        <!--<Label Grid.Row="3" Grid.Column="0" Content="State"/>-->
+                        <CheckBox DataContext="{Binding Filter}" Name="ChkPeriod" Grid.Row="4" Grid.Column="0" Content="Period" IsChecked="{Binding FilterByPeriod}" VerticalAlignment="Center"/>
+
+                        <Grid Grid.Row="4" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <DatePicker Grid.Row="0" Grid.Column="0" SelectedDate="{Binding DateFrom}" IsEnabled="{Binding ElementName=ChkPeriod, Path=IsChecked}" Margin="2,2,2,2"/>
+                            <DatePicker Grid.Row="0" Grid.Column="1" SelectedDate="{Binding DateTo}" IsEnabled="{Binding ElementName=ChkPeriod, Path=IsChecked}" Margin="2,2,2,2"/>
+                        </Grid>
+
+                        <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="Apply Filter" Command="{Binding CommandApplyFilter}" Margin="0,2,2,2"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Margin="5,5,0,0" Grid.Row="1">
+                    <ListView ItemsSource="{Binding SemanticsModificationInfos}" Margin="2,5,0,0">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="ID"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Attribute}" Header="Attribute"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Value}" Header="Value"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </GroupBox>
+                <GroupBox Margin="5,5,0,0" Grid.Row="2">
+
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

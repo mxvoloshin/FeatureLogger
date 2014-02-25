@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8733/FeatureLoggerService/FeatureLogService/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ModificationInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FID" type="xs:long" />
+      <xs:element minOccurs="0" name="FeatureClass" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GeometryInfo" nillable="true" type="tns:GeometryModificationInfo" />
+      <xs:element minOccurs="0" name="ID" type="xs:long" />
+      <xs:element minOccurs="0" name="ModifyTime" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SemanticsInfo" nillable="true" type="tns:ArrayOfSemanticsModificationInfo" />
+      <xs:element minOccurs="0" name="State" type="tns:ModifyState" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ModificationInfo" nillable="true" type="tns:ModificationInfo" />
+  <xs:complexType name="GeometryModificationInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="xs:long" />
+      <xs:element minOccurs="0" name="Info" nillable="true" type="tns:ModificationInfo" />
+      <xs:element minOccurs="0" name="WKTGeometry" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GeometryModificationInfo" nillable="true" type="tns:GeometryModificationInfo" />
+  <xs:complexType name="ArrayOfSemanticsModificationInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SemanticsModificationInfo" nillable="true" type="tns:SemanticsModificationInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSemanticsModificationInfo" nillable="true" type="tns:ArrayOfSemanticsModificationInfo" />
+  <xs:complexType name="SemanticsModificationInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Attribute" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID" type="xs:long" />
+      <xs:element minOccurs="0" name="Info" nillable="true" type="tns:ModificationInfo" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SemanticsModificationInfo" nillable="true" type="tns:SemanticsModificationInfo" />
+  <xs:simpleType name="ModifyState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Inserted">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Modified">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Deleted">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ModifyState" nillable="true" type="tns:ModifyState" />
+  <xs:complexType name="ModificationInfoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Infos" nillable="true" type="tns:ArrayOfModificationInfo" />
+      <xs:element minOccurs="0" name="TotalCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ModificationInfoDTO" nillable="true" type="tns:ModificationInfoDTO" />
+  <xs:complexType name="ArrayOfModificationInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ModificationInfo" nillable="true" type="tns:ModificationInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfModificationInfo" nillable="true" type="tns:ArrayOfModificationInfo" />
+</xs:schema>

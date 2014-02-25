@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlugIn>
+
+	<Default
+		AssemblyName="FeatureLogger.dll"
+		Namespace="FeatureLogger"
+	  Priority="100"
+		ExecutionTargetDesktop="True"
+   	ExecutionTargetWeb="False"
+   	DMCode="10.0.0"
+   	Company=""
+   	Author=""
+	/>
+
+  <DocumentPlugIn ClassName="DocumentPlugIn" />
+  <DocumentStructureUpdatePlugIn Priority="90" DMCode="" Namespace="FeatureLogger" ClassName="StructureUpdatePlugIn" />
+
+</PlugIn>

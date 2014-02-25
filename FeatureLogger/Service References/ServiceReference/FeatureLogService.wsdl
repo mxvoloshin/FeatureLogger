@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="FeatureLogService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8733/FeatureLoggerService/FeatureLogService/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8733/FeatureLoggerService/FeatureLogService/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8733/FeatureLoggerService/FeatureLogService/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" />
+      <xsd:import schemaLocation="http://localhost:8733/FeatureLoggerService/FeatureLogService/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IFeatureLogService_AddFeatureModifyLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddFeatureModifyLog" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_AddFeatureModifyLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddFeatureModifyLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetFeatureModifyInfos_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFeatureModifyInfos" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetFeatureModifyInfos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFeatureModifyInfosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetFeatureModifyInfosInPeriod_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFeatureModifyInfosInPeriod" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetFeatureModifyInfosInPeriod_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFeatureModifyInfosInPeriodResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetSemanticsModificationInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSemanticsModificationInfo" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetSemanticsModificationInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSemanticsModificationInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsers" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetFeatureClasses_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFeatureClasses" />
+  </wsdl:message>
+  <wsdl:message name="IFeatureLogService_GetFeatureClasses_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFeatureClassesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IFeatureLogService">
+    <wsdl:operation name="AddFeatureModifyLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeatureLogService/AddFeatureModifyLog" message="tns:IFeatureLogService_AddFeatureModifyLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeatureLogService/AddFeatureModifyLogResponse" message="tns:IFeatureLogService_AddFeatureModifyLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeatureModifyInfos">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeatureLogService/GetFeatureModifyInfos" message="tns:IFeatureLogService_GetFeatureModifyInfos_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeatureLogService/GetFeatureModifyInfosResponse" message="tns:IFeatureLogService_GetFeatureModifyInfos_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeatureModifyInfosInPeriod">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeatureLogService/GetFeatureModifyInfosInPeriod" message="tns:IFeatureLogService_GetFeatureModifyInfosInPeriod_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeatureLogService/GetFeatureModifyInfosInPeriodResponse" message="tns:IFeatureLogService_GetFeatureModifyInfosInPeriod_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSemanticsModificationInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeatureLogService/GetSemanticsModificationInfo" message="tns:IFeatureLogService_GetSemanticsModificationInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeatureLogService/GetSemanticsModificationInfoResponse" message="tns:IFeatureLogService_GetSemanticsModificationInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeatureLogService/GetUsers" message="tns:IFeatureLogService_GetUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeatureLogService/GetUsersResponse" message="tns:IFeatureLogService_GetUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeatureClasses">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeatureLogService/GetFeatureClasses" message="tns:IFeatureLogService_GetFeatureClasses_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeatureLogService/GetFeatureClassesResponse" message="tns:IFeatureLogService_GetFeatureClasses_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IFeatureLogService" type="tns:IFeatureLogService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddFeatureModifyLog">
+      <soap:operation soapAction="http://tempuri.org/IFeatureLogService/AddFeatureModifyLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeatureModifyInfos">
+      <soap:operation soapAction="http://tempuri.org/IFeatureLogService/GetFeatureModifyInfos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeatureModifyInfosInPeriod">
+      <soap:operation soapAction="http://tempuri.org/IFeatureLogService/GetFeatureModifyInfosInPeriod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSemanticsModificationInfo">
+      <soap:operation soapAction="http://tempuri.org/IFeatureLogService/GetSemanticsModificationInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <soap:operation soapAction="http://tempuri.org/IFeatureLogService/GetUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeatureClasses">
+      <soap:operation soapAction="http://tempuri.org/IFeatureLogService/GetFeatureClasses" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FeatureLogService">
+    <wsdl:port name="BasicHttpBinding_IFeatureLogService" binding="tns:BasicHttpBinding_IFeatureLogService">
+      <soap:address location="http://localhost:8733/FeatureLoggerService/FeatureLogService/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

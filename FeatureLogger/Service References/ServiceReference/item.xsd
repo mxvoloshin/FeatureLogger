@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8733/FeatureLoggerService/FeatureLogService/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" />
+  <xs:import schemaLocation="http://localhost:8733/FeatureLoggerService/FeatureLogService/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="AddFeatureModifyLog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" minOccurs="0" name="modifyInfo" nillable="true" type="q1:ModificationInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddFeatureModifyLogResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddFeatureModifyLogResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFeatureModifyInfos">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="featureFid" type="xs:long" />
+        <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" minOccurs="0" name="state" type="q2:ModifyState" />
+        <xs:element minOccurs="0" name="featureClass" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="skipCount" type="xs:int" />
+        <xs:element minOccurs="0" name="takeCount" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFeatureModifyInfosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" minOccurs="0" name="GetFeatureModifyInfosResult" nillable="true" type="q3:ModificationInfoDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFeatureModifyInfosInPeriod">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="featureFid" type="xs:long" />
+        <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" minOccurs="0" name="state" type="q4:ModifyState" />
+        <xs:element minOccurs="0" name="featureClass" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="dateFrom" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="dateTo" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="skipCount" type="xs:int" />
+        <xs:element minOccurs="0" name="takeCount" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFeatureModifyInfosInPeriodResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" minOccurs="0" name="GetFeatureModifyInfosInPeriodResult" nillable="true" type="q5:ModificationInfoDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSemanticsModificationInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="modificationInfoId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSemanticsModificationInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/FeatureLoggerService.Entities" minOccurs="0" name="GetSemanticsModificationInfoResult" nillable="true" type="q6:ArrayOfSemanticsModificationInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUsers">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUsersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetUsersResult" nillable="true" type="q7:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFeatureClasses">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFeatureClassesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetFeatureClassesResult" nillable="true" type="q8:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
