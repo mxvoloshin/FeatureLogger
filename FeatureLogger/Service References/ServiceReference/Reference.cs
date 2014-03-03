@@ -434,6 +434,9 @@ namespace FeatureLogger.ServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFeatureLogService/GetSemanticsModificationInfo", ReplyAction="http://tempuri.org/IFeatureLogService/GetSemanticsModificationInfoResponse")]
         FeatureLogger.ServiceReference.SemanticsModificationInfo[] GetSemanticsModificationInfo(long modificationInfoId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFeatureLogService/GetGeometryModificationInfo", ReplyAction="http://tempuri.org/IFeatureLogService/GetGeometryModificationInfoResponse")]
+        string GetGeometryModificationInfo(long modificationInfoId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFeatureLogService/GetUsers", ReplyAction="http://tempuri.org/IFeatureLogService/GetUsersResponse")]
         string[] GetUsers();
         
@@ -482,6 +485,10 @@ namespace FeatureLogger.ServiceReference {
         
         public FeatureLogger.ServiceReference.SemanticsModificationInfo[] GetSemanticsModificationInfo(long modificationInfoId) {
             return base.Channel.GetSemanticsModificationInfo(modificationInfoId);
+        }
+        
+        public string GetGeometryModificationInfo(long modificationInfoId) {
+            return base.Channel.GetGeometryModificationInfo(modificationInfoId);
         }
         
         public string[] GetUsers() {

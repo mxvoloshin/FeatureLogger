@@ -8,6 +8,11 @@ namespace FeatureLogger.ViewModel
     {
         public FilterViewModel()
         {
+            _filterByFid = false;
+            _filterByPeriod = false;
+            _filterByState = false;
+            _filterByFeatureClass = false;
+            _filterByUser = false;
         }
         
         private Boolean _filterByFid;

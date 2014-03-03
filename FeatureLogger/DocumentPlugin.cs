@@ -104,11 +104,11 @@ namespace FeatureLogger
 
             var logReportToolbar = e.ToolBars.Add("LogReport", "Log Report");
 
-            logReportToolbar.Buttons.Add(ShowLogReportButton, "ShowLogReportButton", "ShowLogReportButton");
+            logReportToolbar.Buttons.Add(ShowLogReportButton, "ShowLogReportButton.png", Properties.Resources.LOG_BUTTON_TOOLTIP);
             ShowLogReportButton.Click += (bsender, be) => _commands.ShowLogReport();
 
-            logReportToolbar.Buttons.Add(ShowLogReportButton, "ShowLogReportForFeatureButton", "ShowLogReportForFeatureButton");
-            ShowLogReportButton.Click += (bsender, be) => _commands.ShowLogReportForFeature();
+            logReportToolbar.Buttons.Add(ShowLogReportForFeatureButton, "ShowLogReportForFeatureButton", Properties.Resources.LOG_FOR_SELECTED_FEATURE_BUTTON_TOOLTIP);
+            ShowLogReportForFeatureButton.Click += (bsender, be) => _commands.ShowLogReportForFeature();
         }
     }
 }

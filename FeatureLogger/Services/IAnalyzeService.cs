@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using FeatureLogger.ServiceReference;
 using FeatureLogger.ViewModel;
 
@@ -12,6 +14,7 @@ namespace FeatureLogger.Services
         ObservableCollection<String> GetUsers();
         ObservableCollection<String> GetFeatureClasses();
         ObservableCollection<SemanticsModificationInfo> GetSemanticsModificationInfos(Int64 modificationInfoID);
+        String GetGeometryModificationInfo(Int64 modificationInfoID);
         ModificationInfoDTO GetModificationInfos(int pageNumber, FilterViewModel filter);
         ModificationInfoDTO GetModificationInfos(int pageNumber, Int64 featureFid = 0, String user = "", String featureClass = "", ModifyState state = ModifyState.None);
         ModificationInfoDTO GetModificationInfos(DateTime dateFrom, DateTime dateTo, int pageNumber, Int64 featureFid = 0, String user = "", String featureClass = "", ModifyState state = ModifyState.None);
@@ -47,7 +50,16 @@ namespace FeatureLogger.Services
             using (var client = new FeatureLogServiceClient("BasicHttpBinding_IFeatureLogService"))
             {
                 var infos = client.GetSemanticsModificationInfo(modificationInfoID);
-                return new ObservableCollection<SemanticsModificationInfo>(infos);
+                return new ObservableCollection<SemanticsModificationInfo>(infos);   
+            }
+        }
+
+        public String GetGeometryModificationInfo(long modificationInfoID)
+        {
+            using (var client = new FeatureLogServiceClient("BasicHttpBinding_IFeatureLogService"))
+            {
+                var geometryModificationInfo = client.GetGeometryModificationInfo(modificationInfoID);
+                return geometryModificationInfo;
             }
         }
 

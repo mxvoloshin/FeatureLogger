@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Windows.Input;
+using Autodesk.Map.IM.Forms;
 using FeatureLogger.ServiceReference;
 using FeatureLogger.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FeatureLogger.ViewModel
 {
@@ -16,28 +19,47 @@ namespace FeatureLogger.ViewModel
 
         public FeatureLogViewModel(IAnalyzeService service)
         {
-            _analyzeService = service;
-            _analyzeService.PageSize = 100;
+            Messenger.Default.Register<Exception>(this, (exception) =>
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("Exception:");
+                sb.AppendLine(exception.Message);
 
-            Filter = new FilterViewModel();
+                sb.AppendLine("Inner exception:");
+                sb.AppendLine(exception.InnerException != null ? exception.InnerException.Message : string.Empty);
+                
+                System.Windows.MessageBox.Show(sb.ToString());
+            });
 
-            Users = _analyzeService.GetUsers();
-            FeatureClasses = _analyzeService.GetFeatureClasses();
-            
-            LoadModificationInfos();
+            try
+            {
+                _analyzeService = service;
+                _analyzeService.PageSize = 100;
 
-            CommandApplyFilter = new RelayCommand(ApplyFilter);
-            CommandTakeFirst = new RelayCommand(TakeFirst);
-            CommandTakePrevious = new RelayCommand(TakePrevious);
-            CommandTakeNext = new RelayCommand(TakeNext);
-            CommandTakeLast = new RelayCommand(TakeLast);
+                Filter = new FilterViewModel();
 
-            State = ModifyState.None;
+                Users = _analyzeService.GetUsers();
+                FeatureClasses = _analyzeService.GetFeatureClasses();
 
-            DateFrom = DateTime.Now;
-            DateTo = DateTime.Now + new TimeSpan(1, 0, 0, 0);
+                CommandApplyFilter = new RelayCommand(ApplyFilter);
+                CommandTakeFirst = new RelayCommand(TakeFirst);
+                CommandTakePrevious = new RelayCommand(TakePrevious);
+                CommandTakeNext = new RelayCommand(TakeNext);
+                CommandTakeLast = new RelayCommand(TakeLast);
 
-            CurrentPage = 0;
+                State = ModifyState.None;
+
+                DateFrom = DateTime.Now;
+                DateTo = DateTime.Now + new TimeSpan(1, 0, 0, 0);
+
+                CurrentPage = 0;
+
+                //LoadObjects();
+            }
+            catch (Exception ex)
+            {
+                Messenger.Default.Send(ex);
+            }
         }
 
         private FilterViewModel _filterViewModel;
@@ -135,54 +157,49 @@ namespace FeatureLogger.ViewModel
         private int CurrentPage { get; set; }
         private int TotalCount { get; set; }
 
-        private void LoadModificationInfos()
-        {
-            var modificationInfoDTO = _analyzeService.GetModificationInfos(CurrentPage);
-            
-            TotalCount = modificationInfoDTO.TotalCount;
-            TotalPageCount = TotalCount/_analyzeService.PageSize;
-            CurrentPage = 0;
-
-            ModificationInfos = new ObservableCollection<ModificationInfo>(modificationInfoDTO.Infos);
-
-            UpdateNavigate();
-        }
-
         private void UpdateNavigate()
         {
-            if (CurrentPage == 0)
+            try
             {
-                HasPrevious = false;
-            }
-            else if (CurrentPage == TotalPageCount)
-            {
-                HasNext = false;
-            }
+                if (CurrentPage == 0)
+                {
+                    HasPrevious = false;
+                }
+                else if (CurrentPage == TotalPageCount)
+                {
+                    HasNext = false;
+                }
 
-            if (CurrentPage != TotalPageCount && TotalCount > TotalPageCount * _analyzeService.PageSize)
-            {
-                HasNext = true;
-            }
-            if (CurrentPage != 0 && CurrentPage * _analyzeService.PageSize < TotalCount)
-            {
-                HasPrevious = true;
-            }
+                if (CurrentPage != TotalPageCount && TotalCount > TotalPageCount * _analyzeService.PageSize)
+                {
+                    HasNext = true;
+                }
+                if (CurrentPage != 0 && CurrentPage * _analyzeService.PageSize < TotalCount)
+                {
+                    HasPrevious = true;
+                }
 
-            var currentCount = 0;
-            if (CurrentPage == 0)
-            {
-                currentCount = _analyzeService.PageSize;
-            }
-            else if (CurrentPage == TotalPageCount)
-            {
-                currentCount = TotalCount;
-            }
-            else
-            {
-                currentCount = (CurrentPage + 1)*_analyzeService.PageSize;
-            }
+                /*var currentCount = 0;
+                if (CurrentPage == 0)
+                {
+                    currentCount = TotalCount > _analyzeService.PageSize ? _analyzeService.PageSize : TotalCount;
+                }
+                else if (CurrentPage == TotalPageCount)
+                {
+                    currentCount = TotalCount;
+                }
+                else
+                {
+                    currentCount = (CurrentPage + 1) * _analyzeService.PageSize;
+                }*/
 
-            CurrentPageDisplayText = string.Format("{0} из {1}", currentCount, TotalCount);
+                int count = ModificationInfos.Count;
+                CurrentPageDisplayText = string.Format(Properties.Resources.PageDisplay, count, TotalCount);
+            }
+            catch (Exception ex)
+            {
+                Messenger.Default.Send(ex);
+            }
         }
 
         public ICommand CommandApplyFilter { get; set; }   
@@ -195,37 +212,46 @@ namespace FeatureLogger.ViewModel
 
         private void LoadObjects()
         {
-            if (Filter.FilterByPeriod)
+            try
             {
-                if (DateFrom > DateTo)
+                if (Filter.FilterByPeriod)
                 {
-                    var date = DateTo;
-                    DateTo = DateFrom;
-                    DateFrom = date;
+                    if (DateFrom > DateTo)
+                    {
+                        var date = DateTo;
+                        DateTo = DateFrom;
+                        DateFrom = date;
+                    }
                 }
+
+                String user = Filter.FilterByUser ? User : String.Empty;
+                String featureClass = Filter.FilterByFeatureClass ? FeatureClass : String.Empty;
+                ModifyState state = Filter.FilterByState ? State : ModifyState.None;
+                Int64 featureFid = Filter.FilterByFid ? FeatureFid : 0;
+
+                ModificationInfoDTO minfoDTO;
+
+                if (!Filter.FilterByPeriod)
+                {
+                    minfoDTO = _analyzeService.GetModificationInfos(CurrentPage, featureFid, user, featureClass, state);
+                }
+                else
+                {
+                    minfoDTO = _analyzeService.GetModificationInfos(DateFrom, DateTo, CurrentPage, featureFid, user, featureClass, state);
+                }
+
+                TotalCount = minfoDTO.TotalCount;
+                ModificationInfos = new ObservableCollection<ModificationInfo>(minfoDTO.Infos);
+
+                TotalCount = minfoDTO.TotalCount;
+                TotalPageCount = TotalCount / _analyzeService.PageSize;
+
+                UpdateNavigate();
             }
-
-            String user = Filter.FilterByUser ? User : String.Empty;
-            String featureClass = Filter.FilterByFeatureClass ? FeatureClass : String.Empty;
-            ModifyState state = Filter.FilterByState ? State : ModifyState.None;
-            Int64 featureFid = Filter.FilterByFid ? FeatureFid : 0;
-
-            ModificationInfoDTO minfoDTO;
-
-            if (!Filter.FilterByPeriod)
+            catch (Exception ex)
             {
-                minfoDTO = _analyzeService.GetModificationInfos(CurrentPage, featureFid, user, featureClass, state);
+                Messenger.Default.Send(ex);
             }
-            else
-            {
-                minfoDTO = _analyzeService.GetModificationInfos(DateFrom, DateTo, CurrentPage, featureFid, user, featureClass, state);
-            }
-
-            TotalCount = minfoDTO.TotalCount;
-            ModificationInfos = new ObservableCollection<ModificationInfo>(minfoDTO.Infos);
-
-            TotalCount = minfoDTO.TotalCount;
-            TotalPageCount = TotalCount / _analyzeService.PageSize;
         }
 
         private ModificationInfo _selectedModificationInfo;
@@ -234,7 +260,6 @@ namespace FeatureLogger.ViewModel
             set
             {
                 _selectedModificationInfo = value;
-                RaisePropertyChanged("SelectedModificationInfo");
 
                 if (_selectedModificationInfo == null)
                 {
@@ -242,8 +267,19 @@ namespace FeatureLogger.ViewModel
                 }
                 else
                 {
-                    SemanticsModificationInfos = _analyzeService.GetSemanticsModificationInfos(_selectedModificationInfo.ID);
+                    try
+                    {
+                        SemanticsModificationInfos = _analyzeService.GetSemanticsModificationInfos(_selectedModificationInfo.ID);
+                        GeometryModification = _analyzeService.GetGeometryModificationInfo(_selectedModificationInfo.ID);
+                    }
+                    catch (Exception ex)
+                    {
+                        Messenger.Default.Send<Exception>(ex);
+                        return;
+                    }
                 }
+
+                RaisePropertyChanged("SelectedModificationInfo");
             }
         }
 
@@ -327,6 +363,17 @@ namespace FeatureLogger.ViewModel
             {
                 _currentPageDisplayText = value;
                 RaisePropertyChanged("CurrentPageDisplayText");
+            }
+        }
+
+        private String _geometryModification;
+        public String GeometryModification
+        {
+            get { return _geometryModification; }
+            set
+            {
+                _geometryModification = value;
+                RaisePropertyChanged("GeometryModification");
             }
         }
     }

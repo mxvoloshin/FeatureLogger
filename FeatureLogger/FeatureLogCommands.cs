@@ -2,6 +2,8 @@
 using Autodesk.Map.IM.CommandRegistry.API;
 using Autodesk.Map.IM.CommandRegistry.API.Util;
 using Autodesk.Map.IM.Forms;
+using Autodesk.Map.IM.Map.PromptResults;
+using FeatureLogger.Properties;
 using FeatureLogger.Services;
 using FeatureLogger.View;
 using FeatureLogger.ViewModel;
@@ -30,7 +32,14 @@ namespace FeatureLogger
         {
             try
             {
-                var view = new FeatureLogView {ViewModel = _container.Resolve<FeatureLogViewModel>()};
+                var filter = new FilterViewModel { FilterByFid = true };
+                filter.FilterByPeriod = true;
+
+                var vm = _container.Resolve<FeatureLogViewModel>();
+                vm.Filter = filter;
+                vm.ApplyFilter();
+
+                var view = new FeatureLogView {ViewModel = vm};
                 view.ShowDialog();
             }
             catch (Exception ex)
@@ -42,6 +51,28 @@ namespace FeatureLogger
         [TBCommand("ShowLogReportForFeature", "localShowLogReportForFeature", TBCommandFlags.CMD_DOCLEVEL, "{971A648C-BE9A-49C6-9A4D-51F9233DDD17}")]
         public void ShowLogReportForFeature(params object[] args)
         {
+            try
+            {
+                var selectResult = Document.Map.SelectFeature(Resources.MSG_SELECT_FEATURE);
+                if (selectResult.Feature == null || selectResult.Status != MapPromptStatus.OK)
+                {
+                    return;
+                }
+
+                var filter = new FilterViewModel {FilterByFid = true};
+
+                var vm = _container.Resolve<FeatureLogViewModel>();
+                vm.FeatureFid = selectResult.Feature.FID;
+                vm.Filter = filter;
+                vm.ApplyFilter();
+
+                var view = new FeatureLogView { ViewModel = vm};
+                view.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Application.ShowErrorMessage(ex, ex.Source, ex.Message);
+            }
         }
     }
 }
