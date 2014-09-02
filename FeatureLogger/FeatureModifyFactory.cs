@@ -26,6 +26,14 @@ namespace FeatureLogger
             }
         }
 
+        public Boolean RemoveUpdatingModificationInfo(ModificationInfo mInfo)
+        {
+            lock (_lockobject)
+            {
+                return _modifications.Remove(mInfo);
+            }
+        }
+
         public int RemoveUpdatingModificationInfo(Predicate<ModificationInfo> predicate)
         {
             lock (_lockobject)

@@ -77,6 +77,11 @@ namespace FeatureLogger
                 {
                     if (modificationInfo != null && (modificationInfo.SemanticsInfo.Any() || modificationInfo.GeometryInfo != null))
                         logChannel.AddFeatureModifyLog(modificationInfo);
+
+                    if (modificationInfo != null)
+                    {
+                        _factory.RemoveUpdatingModificationInfo(modificationInfo);
+                    }
                 }
             };
             StartNewTask(action);
@@ -107,7 +112,7 @@ namespace FeatureLogger
             logReportToolbar.Buttons.Add(ShowLogReportButton, "ShowLogReportButton.png", Properties.Resources.LOG_BUTTON_TOOLTIP);
             ShowLogReportButton.Click += (bsender, be) => _commands.ShowLogReport();
 
-            logReportToolbar.Buttons.Add(ShowLogReportForFeatureButton, "ShowLogReportForFeatureButton", Properties.Resources.LOG_FOR_SELECTED_FEATURE_BUTTON_TOOLTIP);
+            logReportToolbar.Buttons.Add(ShowLogReportForFeatureButton, "ShowLogReportForFeatureButton.png", Properties.Resources.LOG_FOR_SELECTED_FEATURE_BUTTON_TOOLTIP);
             ShowLogReportForFeatureButton.Click += (bsender, be) => _commands.ShowLogReportForFeature();
         }
     }

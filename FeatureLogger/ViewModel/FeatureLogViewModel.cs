@@ -124,7 +124,7 @@ namespace FeatureLogger.ViewModel
             get { return _dateFrom; }
             set
             {
-                _dateFrom = value;
+                _dateFrom = value.Date;
                 RaisePropertyChanged("DateFrom");
             }
         }
@@ -135,7 +135,7 @@ namespace FeatureLogger.ViewModel
             get { return _dateTo; }
             set
             {
-                _dateTo = value;
+                _dateTo = value.Date;
                 RaisePropertyChanged("DateTo");
             }
         }

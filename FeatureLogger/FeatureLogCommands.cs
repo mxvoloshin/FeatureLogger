@@ -32,9 +32,8 @@ namespace FeatureLogger
         {
             try
             {
-                var filter = new FilterViewModel { FilterByFid = true };
-                filter.FilterByPeriod = true;
-
+                var filter = new FilterViewModel { FilterByPeriod = true };
+                
                 var vm = _container.Resolve<FeatureLogViewModel>();
                 vm.Filter = filter;
                 vm.ApplyFilter();

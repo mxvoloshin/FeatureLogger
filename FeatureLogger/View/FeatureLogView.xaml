@@ -5,7 +5,7 @@
              x:Class="FeatureLogger.View.FeatureLogView" 
 			 xmlns:serviceReference="clr-namespace:FeatureLogger.ServiceReference"
 			 xmlns:properties="clr-namespace:FeatureLogger.Properties"
-			 Width="1000" Height="800" WindowStartupLocation="CenterScreen" Icon="/FeatureLogger;component/Resources/crystal-log.png"
+			 Width="1000" Height="700" WindowStartupLocation="CenterScreen" Icon="/FeatureLogger;component/Resources/crystal-log.png"
     >
     
     <Window.Resources>
