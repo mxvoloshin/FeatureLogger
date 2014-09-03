@@ -50,12 +50,13 @@ namespace FeatureLogger
             }
         }
 
-        public ModificationInfo CreateFeatureModificationInfo(String currentUserName, ModifyState state, long fid, string featureClassName)
+        public ModificationInfo CreateFeatureModificationInfo(String currentUserName, ModifyState state, long fid, string featureClassName, string featureClassCaption)
         {
             var modifyInfo = new ModificationInfo
             {
                 FID = fid,
                 FeatureClass = featureClassName,
+                FeatureClassCaption = featureClassCaption,
                 ModifyTime = DateTime.Now,
                 UserName = currentUserName,
                 State = state
@@ -66,7 +67,7 @@ namespace FeatureLogger
 
         public ModificationInfo CreateFeatureModificationInfo(String currentUserName, ModifyState state, long fid, string featureClassName, Feature feature)
         {
-            var modifyInfo = CreateFeatureModificationInfo(currentUserName, state, fid, featureClassName);
+            var modifyInfo = CreateFeatureModificationInfo(currentUserName, state, fid, featureClassName, feature.FeatureClass.Caption);
 
             var semanticsInfo = CreateSemanticsModificationInfo(feature);
             modifyInfo.SemanticsInfo = semanticsInfo.ToArray();
@@ -84,6 +85,7 @@ namespace FeatureLogger
                 .Select(attribute => new SemanticsModificationInfo
                 {
                     Attribute = attribute.Name,
+                    AttributeCaption = attribute.Caption,
                     Value = attribute.Value.ToString()
                 });
         }

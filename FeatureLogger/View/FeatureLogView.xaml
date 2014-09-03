@@ -55,6 +55,7 @@
                             <GridViewColumn DisplayMemberBinding="{Binding ModifyTime}" Header="{x:Static properties:Resources.ModifyTime}"/>
                             <GridViewColumn DisplayMemberBinding="{Binding UserName}" Header="{x:Static properties:Resources.UserName}"/>
                             <GridViewColumn DisplayMemberBinding="{Binding FeatureClass}" Header="{x:Static properties:Resources.FeatureClass}"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding FeatureClassCaption}" Header="{x:Static properties:Resources.FeatureClass}"/>
                             <GridViewColumn DisplayMemberBinding="{Binding State}" Header="{x:Static properties:Resources.State}"/>
                         </GridView>
                     </ListView.View>
@@ -132,8 +133,9 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="{x:Static properties:Resources.ID}"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Attribute}" Header="{x:Static properties:Resources.Attribute}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding AttributeCaption}" Header="{x:Static properties:Resources.Attribute}"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Value}" Header="{x:Static properties:Resources.Value}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Attribute}" Header="{x:Static properties:Resources.Attribute}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

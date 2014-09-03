@@ -5,6 +5,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="FID" type="xs:long" />
       <xs:element minOccurs="0" name="FeatureClass" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FeatureClassCaption" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="GeometryInfo" nillable="true" type="tns:GeometryModificationInfo" />
       <xs:element minOccurs="0" name="ID" type="xs:long" />
       <xs:element minOccurs="0" name="ModifyTime" type="xs:dateTime" />
@@ -31,6 +32,7 @@
   <xs:complexType name="SemanticsModificationInfo">
     <xs:sequence>
       <xs:element minOccurs="0" name="Attribute" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AttributeCaption" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ID" type="xs:long" />
       <xs:element minOccurs="0" name="Info" nillable="true" type="tns:ModificationInfo" />
       <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />

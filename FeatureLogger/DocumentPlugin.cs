@@ -91,7 +91,7 @@ namespace FeatureLogger
         {
             Action action = () =>
             {
-                var modificationInfo = _factory.CreateFeatureModificationInfo(Application.User.Name, ModifyState.Deleted, e.FID, e.FeatureClass.Name);
+                var modificationInfo = _factory.CreateFeatureModificationInfo(Application.User.Name, ModifyState.Deleted, e.FID, e.FeatureClass.Name, e.FeatureClass.Caption);
                 using (var logChannel = new FeatureLogServiceClient("BasicHttpBinding_IFeatureLogService"))
                 {
                     logChannel.AddFeatureModifyLog(modificationInfo);

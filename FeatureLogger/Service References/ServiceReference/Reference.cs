@@ -29,6 +29,9 @@ namespace FeatureLogger.ServiceReference {
         private string FeatureClassField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FeatureClassCaptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private FeatureLogger.ServiceReference.GeometryModificationInfo GeometryInfoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -78,6 +81,19 @@ namespace FeatureLogger.ServiceReference {
                 if ((object.ReferenceEquals(this.FeatureClassField, value) != true)) {
                     this.FeatureClassField = value;
                     this.RaisePropertyChanged("FeatureClass");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FeatureClassCaption {
+            get {
+                return this.FeatureClassCaptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FeatureClassCaptionField, value) != true)) {
+                    this.FeatureClassCaptionField = value;
+                    this.RaisePropertyChanged("FeatureClassCaption");
                 }
             }
         }
@@ -260,6 +276,9 @@ namespace FeatureLogger.ServiceReference {
         private string AttributeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AttributeCaptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long IDField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -287,6 +306,19 @@ namespace FeatureLogger.ServiceReference {
                 if ((object.ReferenceEquals(this.AttributeField, value) != true)) {
                     this.AttributeField = value;
                     this.RaisePropertyChanged("Attribute");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AttributeCaption {
+            get {
+                return this.AttributeCaptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AttributeCaptionField, value) != true)) {
+                    this.AttributeCaptionField = value;
+                    this.RaisePropertyChanged("AttributeCaption");
                 }
             }
         }
