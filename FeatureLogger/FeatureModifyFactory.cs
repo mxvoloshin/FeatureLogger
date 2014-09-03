@@ -81,12 +81,12 @@ namespace FeatureLogger
         private static IEnumerable<SemanticsModificationInfo> CreateSemanticsModificationInfo(Row feature)
         {
             return feature.Attributes
-                .Where(attribute => attribute != feature.Attributes.Geometry && attribute.Modified && !attribute.IsDBNull) // get all non geometry attributes
+                .Where(attribute => attribute != feature.Attributes.Geometry && attribute.Modified /*&& !attribute.IsDBNull*/) // get all non geometry attributes
                 .Select(attribute => new SemanticsModificationInfo
                 {
                     Attribute = attribute.Name,
                     AttributeCaption = attribute.Caption,
-                    Value = attribute.Value.ToString()
+                    Value = attribute.IsDBNull ? "Null" : attribute.Value.ToString()
                 });
         }
         private static GeometryModificationInfo CreateGeometryModificationInfo(Row feature)
